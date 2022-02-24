@@ -3,7 +3,7 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
