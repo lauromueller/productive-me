@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CreateTask } from './CreateTask';
 import { TaskList } from './TaskList';
+import { useTasksStore } from '../dataStores/useTasksStore';
 
 export const Tasks = () => {
-  const [items, setItems] = useState<string[]>([]);
+  const { data, createTask } = useTasksStore();
 
   return (
     <div>
-      <CreateTask
-        onSubmit={(newItem) =>
-          new Promise((resolve) => {
-            setItems([...items, newItem]);
-            resolve(undefined);
-          })
-        }
-      />
-      <TaskList tasks={items} />
+      <CreateTask onSubmit={(newTaskTitle) => createTask(newTaskTitle)} />
+      <TaskList tasks={data} />
     </div>
   );
 };

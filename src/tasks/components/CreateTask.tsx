@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { Button, Input } from '@mui/material';
 
 type CreateTaskProps = {
-  onSubmit: (task: string) => Promise<void>;
+  onSubmit: (taskTitle: string) => Promise<void>;
 };
 
 export const CreateTask: FunctionComponent<CreateTaskProps> = ({ onSubmit }) => {
