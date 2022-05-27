@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Button, Input } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 type CreateTaskProps = {
   onSubmit: (taskTitle: string) => Promise<void>;
@@ -10,14 +10,33 @@ export const CreateTask: FunctionComponent<CreateTaskProps> = ({ onSubmit }) => 
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <Input
+      <TextField
+        size="small"
         value={taskTitle}
         onChange={(event) => {
           event.preventDefault();
           setTaskTitle(event.target.value);
         }}
+        sx={{
+          width: {
+            xs: '100%',
+            sm: '70%',
+          },
+        }}
       />
       <Button
+        size="large"
+        sx={{
+          boxShadow: 'none !important',
+          width: {
+            xs: '100%',
+            sm: 'unset',
+          },
+          marginTop: {
+            xs: '12px',
+            sm: 'unset',
+          },
+        }}
         onClick={async () => {
           if (taskTitle !== '') {
             try {
