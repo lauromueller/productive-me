@@ -7,7 +7,7 @@ type TaskListProps = {
 };
 
 export const TaskList: FunctionComponent<TaskListProps> = ({ tasks }) => (
-  <List>
+  <List data-testid="tasks-list">
     {tasks.map((task) => (
       <ListItem key={task.getIdentifier()}>
         <FormControlLabel control={<Checkbox />} label={task.getTitle()} labelPlacement="end" />

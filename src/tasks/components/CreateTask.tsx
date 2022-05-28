@@ -11,6 +11,7 @@ export const CreateTask: FunctionComponent<CreateTaskProps> = ({ onSubmit }) => 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <TextField
+        data-testid="create-task-input"
         size="small"
         value={taskTitle}
         onChange={(event) => {
@@ -25,6 +26,7 @@ export const CreateTask: FunctionComponent<CreateTaskProps> = ({ onSubmit }) => 
         }}
       />
       <Button
+        data-testid="create-task-submit-button"
         size="large"
         sx={{
           boxShadow: 'none !important',
