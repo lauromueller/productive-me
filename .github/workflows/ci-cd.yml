@@ -34,8 +34,6 @@ jobs:
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      - name: Echo dev url
-        run: echo ${{ steps.deploy_dev.outputs.NETLIFY_URL }}
       - name: Run E2E tests
         uses: cypress-io/github-action@v2
         with:
