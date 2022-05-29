@@ -26,7 +26,23 @@ jobs:
         run: npm run test
       - name: Build production website
         run: npm run build
-      - name: Deploy to Netlify
+      - name: Deploy to dev environment
+        id: deploy_dev
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=dist
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Echo dev url
+        run: echo ${{ steps.deploy_dev.outputs.NETLIFY_URL }}
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          config-file: cypress/config/cypress-base.json
+          env: WEB_APP_URI=${{ steps.deploy_dev.outputs.NETLIFY_URL }}
+      - name: Deploy to prod environment
         uses: netlify/actions/cli@master
         with:
           args: deploy --dir=dist --prod
