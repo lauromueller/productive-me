@@ -1,6 +1,7 @@
 describe('tests the home screen of Productive Me', () => {
   beforeEach(() => {
     cy.visit(Cypress.env('WEB_APP_URI'));
+    localStorage.clear();
   });
 
   it('should not display any tasks when opening for the first time', () => {
@@ -20,5 +21,13 @@ describe('tests the home screen of Productive Me', () => {
     cy.get('[data-testid="create-task-submit-button"]').click();
     cy.contains('First task').parent().find('input[type=checkbox]').click();
     cy.contains('First task').parent().find('input[type=checkbox]').should('be.checked');
+  });
+
+  it('persists the tasks between page reloads', () => {
+    cy.get('[data-testid="create-task-input"]').type('First task');
+    cy.get('[data-testid="create-task-submit-button"]').click();
+    cy.contains('First task').should('exist');
+    cy.reload();
+    cy.contains('First task').should('exist');
   });
 });

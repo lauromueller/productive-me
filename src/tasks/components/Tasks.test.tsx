@@ -3,7 +3,11 @@ import { render, screen, within } from '@testing-library/react';
 import { Tasks } from './Tasks';
 import userEvent from '@testing-library/user-event';
 
-describe('tests the App root component', () => {
+describe('tests the Tasks component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should correctly display the created item on the screen', async () => {
     const user = userEvent.setup();
     render(<Tasks />);
