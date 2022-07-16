@@ -4,11 +4,12 @@ import { TaskList } from './TaskList';
 import { useTasksStore } from '../dataStores/useTasksStore';
 
 export const Tasks = () => {
-  const { data, createTask } = useTasksStore();
+  const { data, error, createTask } = useTasksStore();
 
   return (
     <div>
       <CreateTask onSubmit={(newTaskTitle) => createTask(newTaskTitle)} />
+      {error && <p>{error}</p>}
       <TaskList tasks={data} />
     </div>
   );

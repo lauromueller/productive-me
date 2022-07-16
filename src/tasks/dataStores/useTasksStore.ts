@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Task } from '../models';
-import { ITasksPersistentStorage, LocalStoragePersistentStorage } from './localStoragePersistentStorage';
+import { ITasksPersistentStorage } from './localStoragePersistentStorage';
+import { usePersistentStorage } from './persistentStorageContext';
 
 type TasksStore = {
   data: Task[];
+  error?: string;
   createTask: (taskTitle: string) => Promise<void>;
 };
-
-const localStoragePersistentStorage = new LocalStoragePersistentStorage();
 
 const getAllTasks = async (persistentStorage: ITasksPersistentStorage) => {
   return persistentStorage.fetchAllTasks();
@@ -18,24 +18,27 @@ const saveAllTasks = async (persistentStorage: ITasksPersistentStorage, tasks: T
 };
 
 export const useTasksStore = (): TasksStore => {
+  const persistentStorage = usePersistentStorage();
+
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
-    getAllTasks(localStoragePersistentStorage).then((tasks) => {
-      setTasks(tasks);
-    });
-  }, []);
-
-  useEffect(() => {
-    saveAllTasks(localStoragePersistentStorage, tasks);
-  }, [tasks]);
+    getAllTasks(persistentStorage)
+      .then((tasks) => setTasks(tasks))
+      .catch(() => setError('Ups! Something went wrong.'));
+  }, [persistentStorage]);
 
   const createTask = async (taskTitle: string) => {
-    setTasks([...tasks, new Task(taskTitle)]);
+    const newTasks = [...tasks, new Task(taskTitle)];
+    saveAllTasks(persistentStorage, newTasks)
+      .then(() => setTasks(newTasks))
+      .catch(() => setError('Ups! Something went wrong.'));
   };
 
   return {
     data: tasks,
+    error,
     createTask,
   };
 };
